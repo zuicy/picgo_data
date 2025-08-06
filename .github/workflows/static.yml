@@ -36,11 +36,19 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Prepare deployment
+        run: |
+          mkdir -p deploy
+          # Copy all files except picgo directory
+          find . -maxdepth 1 -type f -exec cp {} deploy/ \;
+          find . -maxdepth 1 -type d ! -name '.' ! -name '.git' ! -name 'picgo' -exec cp -r {} deploy/ \;
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: '.'
+          # Upload prepared directory without picgo
+          path: 'deploy'
+          # Exclude picgo directory from deployment
+          retention-days: 1
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
