@@ -5,10 +5,21 @@
     <meta charset="utf-8">
     <title>重定向中...</title>
     <script>
-        // 保存当前路径
-        sessionStorage.redirect = location.pathname;
-        // 重定向到根目录
-        location.replace('/');
+        // 获取当前路径
+        const currentPath = location.pathname;
+
+        // 检查是否是访问图片路径
+        const picgoMatch = currentPath.match(/\/picgo\/(.+)/);
+        if (picgoMatch) {
+            // 如果是/picgo/路径，直接重定向到GitHub图片URL
+            const filename = picgoMatch[1];
+            const githubUrl = `https://raw.githubusercontent.com/zuicy/picgo_data/master/picgo/${filename}`;
+            location.replace(githubUrl);
+        } else {
+            // 其他路径重定向到根目录
+            sessionStorage.redirect = currentPath;
+            location.replace('/');
+        }
     </script>
 </head>
 

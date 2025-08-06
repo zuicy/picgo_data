@@ -158,27 +158,10 @@
 
         // 显示单张图片
         async function displaySingleImage(filename) {
-            const content = document.getElementById('content');
+            const githubUrl = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/picgo/${filename}`;
 
-            try {
-                const imageUrl = await loadImageFromGitHub(filename);
-                content.innerHTML = `
-                    <div class="image-container">
-                        <img src="${imageUrl}" alt="${filename}" />
-                        <p>文件名: ${filename}</p>
-                        <p><a href="/">返回图库</a></p>
-                    </div>
-                `;
-            } catch (error) {
-                content.innerHTML = `
-                    <div class="error">
-                        <h3>图片加载失败</h3>
-                        <p>文件: ${filename}</p>
-                        <p>错误: ${error.message}</p>
-                        <p><a href="/">返回图库</a></p>
-                    </div>
-                `;
-            }
+            // 直接重定向到图片 URL，让浏览器直接显示图片
+            window.location.replace(githubUrl);
         }
 
         // 显示图片画廊
